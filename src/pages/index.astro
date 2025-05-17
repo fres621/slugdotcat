@@ -1,11 +1,121 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Input from '../components/Input.astro';
+import backgroundCat from '../assets/background_cat.jpg';
+import backgroundPortrait from '../assets/background_portrait.png';
+import DynamicImage from '../components/DynamicImage.astro';
+import TextArea from '../components/TextArea.astro';
 ---
 
+<style>
+  #form {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 12px;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    width: 50%;
+    gap: 12px;
+  }
+  @media only screen and (orientation: portrait) {
+    #form {
+      width: 100%;
+    }
+  }
+  .bgImage {
+    z-index: -1;
+    position: fixed;
+    top: var(--top, -10%);
+    left: var(--left, -10%);
+    width: 120%;
+    height: 120%;
+    pointer-events: none;
+    filter: brightness(0.4) contrast(1);
+    object-fit: cover;
+  }
+  .head {
+    height: 40vh;
+    gap: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+</style>
+<DynamicImage alt="a" landscapeUrl={backgroundCat} portraitUrl={backgroundPortrait} class="bgImage" />
 <Layout>
-	<Welcome />
+  <div class="head">
+    <div style="font-size: xxx-large; font-weight: bold;">nothing here yet but a cat</div>
+    <div style="font-size: x-large;">you can also send me messages:</div>
+  </div>
+  <form action="javascript:void(0);" id="form">
+    <Input id="username" minlength="1" maxlength="32" value="" placeholder="Your name" type="text" required />
+    <TextArea id="content" minlength="1" maxlength="1024" placeholder="Your message" required />
+    <Input id="send" type="submit" value="Send" style="flex: 1" />
+  </form>
 </Layout>
+
+{/* Form submission script */}
+<script>
+  const form = document.querySelector<HTMLFormElement>('#form')!,
+    username = document.querySelector<HTMLInputElement>('#username')!,
+    content = document.querySelector<HTMLTextAreaElement>('#content')!,
+    send = document.querySelector<HTMLInputElement>('#send')!;
+  form.addEventListener('submit', async () => {
+    send.disabled = true;
+    username.disabled = true;
+    content.disabled = true;
+    let res = await fetch('https://conflux.slug.cat/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: username.value,
+        content: content.value,
+      }),
+    })
+      .then((e) => e.text())
+      .then((e) => [true, e])
+      .catch((e) => [false, e]);
+
+    send.disabled = false;
+    username.disabled = false;
+    content.disabled = false;
+    if (res[0]) content.value = '';
+    alert(res[1]);
+  });
+</script>
+
+{/* Background animation script */}
+<script>
+  /* https://www.trysmudford.com/blog/linear-interpolation-functions/ */
+  const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
+  const clamp = (a: number, min = 0, max = 1) => Math.min(max, Math.max(min, a));
+  const invlerp = (x: number, y: number, a: number) => clamp((a - x) / (y - x));
+  const range = (x1: any, y1: any, x2: any, y2: any, a: any) => lerp(x2, y2, invlerp(x1, y1, a));
+  let currentValues = { x: -10, y: -10 };
+  /* --- */
+
+  let image = document.querySelector<HTMLImageElement>('.bgImage')!;
+  let setPos = (x: number, y: number) => {
+    image.style.setProperty('--top', x + '%');
+    image.style.setProperty('--left', y + '%');
+    return { x, y };
+  };
+  let target: any = null;
+  let timer = 0;
+  function draw() {
+    if (!target) {
+      target = { x: -Math.floor(Math.random() * 20), y: -Math.floor(Math.random() * 20) };
+      timer = 0;
+    }
+    currentValues = setPos(lerp(currentValues.x, target.x, 0.001 + timer), lerp(currentValues.y, target.y, 0.001 + timer));
+    if (Math.abs(currentValues.x - target.x) < 0.1 && Math.abs(currentValues.y - target.y) < 0.1) target = null;
+    timer += 0.0001;
+    requestAnimationFrame(draw);
+  }
+  draw();
+</script>

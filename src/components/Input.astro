@@ -1,0 +1,8 @@
+---
+import './Border.css';
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'input'>;
+---
+
+<input class="border input" {...Astro.props} />

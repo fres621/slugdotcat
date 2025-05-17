@@ -1,0 +1,8 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'form'>;
+---
+<form action="javascript:void(0);" {...Astro.props}>
+    <slot />
+</form>

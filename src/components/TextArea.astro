@@ -1,0 +1,12 @@
+---
+import './Border.css';
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'textarea'>;
+---
+<style>
+    textarea {
+        resize: vertical;
+    }
+</style>
+<textarea class="border" {...Astro.props} />

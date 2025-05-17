@@ -1,0 +1,21 @@
+.border {
+  outline: none;
+  font-family: var(--font);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  font-size: xx-large;
+  background-color: rgba(15, 15, 15, 0.6);
+  color: var(--text);
+  border-image: var(--BORDER_STATIC) 8 / 8px round;
+  transition: background-color 0.2s linear;
+  &::placeholder {
+    color: var(--placeholder);
+  }
+}
+
+.border:hover {
+  border-image: var(--BORDER_ANIMATED) 13 / 13px / 6px stretch;
+  background-color: rgba(15, 15, 15, 0.8);
+  transition: background-color 0.2s linear;
+}

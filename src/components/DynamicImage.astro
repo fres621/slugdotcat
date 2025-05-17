@@ -1,0 +1,28 @@
+---
+import { getImage } from 'astro:assets';
+
+interface Props {
+    portraitUrl: string | ImageMetadata;
+    landscapeUrl: string | ImageMetadata;
+    class?: string;
+    alt: string;
+}
+const { portraitUrl, landscapeUrl, alt, class: imgClass, ...rest } = Astro.props;
+const portrait = await getImage({
+    src: portraitUrl,
+    format: "webp",
+    widths: [480, 640, 720, 1080, 1440, 2160],
+    quality: "high"
+});
+
+const landscape = await getImage({
+    src: landscapeUrl,
+    format: "webp",
+    widths: [640, 750, 828, 1080, 1200, 1920],
+    quality: "high"
+});
+---
+<picture>
+    <source media="(orientation: portrait)" src={portrait.src} srcset={portrait.srcSet.attribute} />
+    <img src={landscape.src} srcset={landscape.srcSet.attribute} alt={alt} class:list={[imgClass]} {...rest} />
+</picture>
