@@ -8,9 +8,11 @@ import borderAnimated from '../assets/border_animated.webp';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>scug</title>
+    <meta name="og:type" content="website" />
+    <meta name="og:title" content="scug" />
+    <meta name="og:description" content="wawa" />
     <style
       define:vars={{
         BORDER_STATIC: `url("${borderStatic.src}")`,
@@ -44,6 +46,7 @@ import borderAnimated from '../assets/border_animated.webp';
   }
   */
   :root {
+    --font: sans-serif;
     --bg: #191919;
     --text: #a29daa;
     --placeholder: #9b989e;
