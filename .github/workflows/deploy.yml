@@ -1,0 +1,35 @@
+name: Build site
+
+on:
+    push:
+        branches: [master]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Prepare environment
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "22"
+
+            - run: npm install --global pnpm
+
+            - name: Install deps
+              run: pnpm i
+
+            - name: Build site
+              run: pnpm build
+
+            - name: Deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v4
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./dist
+                  publish_branch: build
+                  enable_jekyll: false
