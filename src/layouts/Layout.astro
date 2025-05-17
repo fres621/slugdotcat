@@ -1,7 +1,8 @@
 ---
-import borderStatic from "../assets/border_static.png";
-import borderAnimated from "../assets/border_animated.webp";
+import borderStatic from '../assets/border_static.png';
+import borderAnimated from '../assets/border_animated.webp';
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,10 +11,12 @@ import borderAnimated from "../assets/border_animated.webp";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>scug</title>
-	<style define:vars={{
-		BORDER_STATIC: `url("${borderStatic.src}")`,
-		BORDER_ANIMATED: `url("${borderAnimated.src}")`
-	}}></style>
+    <style
+      define:vars={{
+        BORDER_STATIC: `url("${borderStatic.src}")`,
+        BORDER_ANIMATED: `url("${borderAnimated.src}")`,
+      }}
+    ></style>
   </head>
   <body>
     <slot />
@@ -21,6 +24,7 @@ import borderAnimated from "../assets/border_animated.webp";
 </html>
 
 <style>
+  /*
   :root {
     --bg: #ffffff;
     --text: #050424;
@@ -38,8 +42,17 @@ import borderAnimated from "../assets/border_animated.webp";
       --border: #a29daa;
     }
   }
-  html, body {
-	margin: 0;
+  */
+  :root {
+    --bg: #191919;
+    --text: #a29daa;
+    --placeholder: #9b989e;
+    --submit: #191919;
+    --border: #a29daa;
+  }
+  html,
+  body {
+    margin: 0;
     width: 100%;
     height: 100%;
   }
