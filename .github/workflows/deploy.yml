@@ -26,6 +26,9 @@ jobs:
             - name: Build site
               run: pnpm build
 
+            - name: meowww
+              run: cp ./avatar.png dist/avatar.png
+
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v4
               with:
