@@ -18,13 +18,13 @@ jobs:
               with:
                   node-version: "22"
 
-            - run: npm install --global pnpm
+            - run: npm install
 
             - name: Install deps
-              run: pnpm i
+              run: npm i
 
             - name: Build site
-              run: pnpm build
+              run: npm build
 
             - name: meowww
               run: cp ./avatar.png dist/avatar.png
