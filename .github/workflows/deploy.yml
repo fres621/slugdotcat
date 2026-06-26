@@ -24,7 +24,7 @@ jobs:
               run: npm i
 
             - name: Build site
-              run: npm build
+              run: npm run build
 
             - name: meowww
               run: cp ./avatar.png dist/avatar.png
